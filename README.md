@@ -87,3 +87,14 @@ Example JSON request to add employee:
   "join_date": "2025-11-01",
   "department_id": 2
 }
+
+##  Postman Collection
+
+You can test all the API endpoints using the following Postman collection:
+
+**File:** `employee_tracker_postman_collection.json`
+
+### Steps:
+1. Download this file from the repository.
+2. Open Postman → Import → Upload this file.
+3. Run the requests directly to test all CRUD and assignment APIs.
