@@ -1,0 +1,18 @@
+{
+	"info": {
+		"_postman_id": "4456e796-03c1-4fb0-8fef-96bc40e5ad69",
+		"name": "Employee_Tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46812297"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
