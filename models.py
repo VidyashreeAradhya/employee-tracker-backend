@@ -64,7 +64,7 @@ class Employee(db.Model):
 
 
 # -------------------------------
-# Association Table (Employee ↔ Project)
+# Association Table (Employee <-> Project)
 # -------------------------------
 employee_project = db.Table(
     'employee_project',
@@ -85,13 +85,13 @@ class Project(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date)
 
-    # 🔹 Foreign key: each project belongs to one department
+    # Foreign key: each project belongs to one department
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
 
-    # 🔹 Relationship with Department (One Department → Many Projects)
+    # Relationship with Department (One Department → Many Projects)
     department = db.relationship('Department', backref='projects', lazy=True)
 
-    # 🔹 Many-to-Many relationship with Employees
+    # Many-to-Many relationship with Employees
     employees = db.relationship('Employee', secondary=employee_project, backref='projects', lazy='dynamic')
 
     def __repr__(self):

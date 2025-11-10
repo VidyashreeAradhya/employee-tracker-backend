@@ -4,7 +4,7 @@ from app import app, db
 from models import db, Employee, Department, Project, employee_project
 from datetime import datetime
 
-# 🔹 Helper function to accept both yy-mm-dd and yyyy-mm-dd formats
+# Helper function to accept both yy-mm-dd and yyyy-mm-dd formats
 def parse_date(date_value, field_name):
     """Parses both yy-mm-dd and yyyy-mm-dd date formats."""
     if not date_value:
@@ -33,7 +33,7 @@ def create_employee():
     join_date = data.get('join_date')
     department_id = data.get('department_id')
 
-    # ✅ Validations
+    # Validations
     if not name or not Employee.is_valid_name(name):
         return jsonify({"error": "Name must contain only alphabets"}), 400
 
@@ -54,7 +54,7 @@ def create_employee():
         name=name,
         email=email,
         salary=salary,
-        join_date=join_date_obj,  # ✅ FIXED: should use parsed date
+        join_date=join_date_obj,  # FIXED: should use parsed date
         department_id=department_id
     )
 
@@ -122,7 +122,7 @@ def update_employee(id):
     join_date = data.get('join_date')
     department_id = data.get('department_id', emp.department_id)
 
-    # ✅ Validations
+    # Validations
     if not Employee.is_valid_name(name):
         return jsonify({"error": "Name must contain only alphabets"}), 400
 
@@ -144,7 +144,7 @@ def update_employee(id):
     emp.name = name
     emp.email = email
     emp.salary = salary
-    emp.join_date = join_date_obj  # ✅ FIXED: should store parsed date
+    emp.join_date = join_date_obj  #  FIXED: should store parsed date
     emp.department_id = department_id
 
     db.session.commit()
@@ -328,7 +328,7 @@ def delete_project(id):
 def assign_employees_to_project(project_id):
     data = request.get_json()
 
-    # ✅ Validate JSON body
+    # Validate JSON body
     if not data or 'employee_id' not in data:
         return jsonify({'error': 'employee_id is required'}), 400
 
@@ -336,7 +336,7 @@ def assign_employees_to_project(project_id):
     if not project:
         return jsonify({'error': 'Project not found'}), 404
 
-    # ✅ Handle both single ID and list of IDs
+    # Handle both single ID and list of IDs
     employee_ids = data['employee_id']
     if isinstance(employee_ids, int):
         employee_ids = [employee_ids]  # convert to list for consistency
@@ -344,12 +344,12 @@ def assign_employees_to_project(project_id):
     elif not isinstance(employee_ids, list):
         return jsonify({'error': 'employee_id must be an integer or a list of integers'}), 400
 
-    # ✅ Fetch all employees by IDs
+    # Fetch all employees by IDs
     employees = Employee.query.filter(Employee.id.in_(employee_ids)).all()
     if not employees:
         return jsonify({'error': 'No valid employees found'}), 400
 
-    # ✅ Assign employees to the project
+    # Assign employees to the project
     for emp in employees:
         if emp not in project.employees:
             project.employees.append(emp)
