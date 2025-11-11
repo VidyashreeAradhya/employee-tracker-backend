@@ -1,6 +1,8 @@
 from app import db       # import db instance from app.py
 from datetime import datetime, date  # to handle date fields
 import re                # to use regular expressions for validations
+import random, string    # to generate random codes
+
 
 # -------------------------------
 # Department Model
@@ -12,22 +14,21 @@ class Department(db.Model):
     name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=True)
 
-    # New unique department code (4 alphanumeric)
-    dept_code = db.Column(db.String(4), unique=True, nullable=False)
+    # Auto-generate unique department code (4 alphanumeric)
+    dept_code = db.Column(
+        db.String(4),
+        unique=True,
+        nullable=False,
+        default=lambda: ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+    )
 
-    # One-to-Many relationship with Employees
+    # Relationships
     employees = db.relationship('Employee', backref='department', lazy=True)
-
-    # One-to-Many relationship with Projects
     projects = db.relationship('Project', backref='department', lazy=True)
 
-    # Validation for department code
     @staticmethod
     def is_valid_dept_code(code):
-        """
-        Validate dept_code is exactly 4 alphanumeric characters.
-        Example: IT01, HR02, D123
-        """
+        """Validate dept_code is exactly 4 alphanumeric characters."""
         return bool(re.fullmatch(r'[A-Za-z0-9]{4}', code))
 
     def __repr__(self):
@@ -99,8 +100,13 @@ class Project(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date)
 
-    # New unique project code (5 alphanumeric)
-    project_code = db.Column(db.String(5), unique=True, nullable=False)
+    # Auto-generate unique project code (5 alphanumeric)
+    project_code = db.Column(
+        db.String(5),
+        unique=True,
+        nullable=False,
+        default=lambda: ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+    )
 
     # Foreign key: each project belongs to one department
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
@@ -108,13 +114,9 @@ class Project(db.Model):
     # Many-to-Many relationship with Employees
     employees = db.relationship('Employee', secondary=employee_project, backref='projects', lazy='dynamic')
 
-    # Validation for project code
     @staticmethod
     def is_valid_project_code(code):
-        """
-        Validate project_code is exactly 5 alphanumeric characters.
-        Example: P1234, DEV01, A1B2C
-        """
+        """Validate project_code is exactly 5 alphanumeric characters."""
         return bool(re.fullmatch(r'[A-Za-z0-9]{5}', code))
 
     @staticmethod

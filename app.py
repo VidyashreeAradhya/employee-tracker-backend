@@ -29,6 +29,7 @@ def home():
 # Import routes after db initialization
 # ----------------------------------------------------
 from routes import *
+from models import *
 
 # ----------------------------------------------------
 # Run the App
