@@ -10,15 +10,22 @@
 <div class="container">
   <h1>Departments Management</h1>
 
-  <!-- Add Department Card/Button -->
-  <div class="add-card" id="addDepartmentBtn">+ Add Department</div>
+  <!-- Top bar -->
+  <div class="top-bar">
+    <input type="text" id="searchInput" placeholder="Search departments..." />
+    <button id="searchBtn">Search</button>
+    <div class="add-card" id="addDepartmentBtn">+ Add Department</div>
+  </div>
+
+  <!-- Message Box -->
+  <div id="messageBox"></div>
 
   <h2>All Departments</h2>
   <div class="table-container">
     <table id="departmentTable">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Sl. No.</th>
           <th>Name</th>
           <th>Location</th>
           <th>Dept Code</th>

@@ -8,6 +8,15 @@ const assignForm = document.getElementById("assignForm");
 const employeeSelect = document.getElementById("employeeSelect");
 const projectSelect = document.getElementById("projectSelect");
 
+// Message box for success/info/error
+function showMessage(message, type = "success") {
+  const msgBox = document.createElement("div");
+  msgBox.textContent = message;
+  msgBox.className = `msg-box ${type}`;
+  document.body.appendChild(msgBox);
+  setTimeout(() => msgBox.remove(), 2500);
+}
+
 // Open modal
 assignBtn.addEventListener("click", async () => {
   // Load employees
@@ -66,14 +75,15 @@ async function loadAssignments() {
     btn.addEventListener("click", async () => {
       const empId = btn.dataset.employee;
       const projId = btn.dataset.project;
-      if (!confirm("Unassign this employee from project?")) return;
 
       const res = await fetch(`${BASE}/projects/${projId}/unassign`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ employee_id: empId })
       });
-      alert((await res.json()).message);
+
+      const result = await res.json();
+      showMessage(result.message || result.error, result.error ? "error" : "success");
       loadAssignments();
     });
   });
@@ -86,7 +96,7 @@ assignForm.addEventListener("submit", async e => {
   const project_id = projectSelect.value;
 
   if (!employee_id || !project_id) {
-    alert("Please select both employee and project");
+    showMessage("Please select both employee and project", "error");
     return;
   }
 
@@ -97,7 +107,7 @@ assignForm.addEventListener("submit", async e => {
   });
 
   const result = await res.json();
-  alert(result.message || result.error);
+  showMessage(result.message || result.error, result.error ? "error" : "success");
   assignModal.style.display = "none";
   loadAssignments();
 });

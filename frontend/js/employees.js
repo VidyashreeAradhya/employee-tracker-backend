@@ -10,10 +10,40 @@ const departmentSelect = document.getElementById("departmentSelect");
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 
+// Toast container
+let toastContainer = document.querySelector(".toast-container");
+if (!toastContainer) {
+  toastContainer = document.createElement("div");
+  toastContainer.className = "toast-container";
+  document.body.appendChild(toastContainer);
+}
+
 let employees = [];
 let departments = [];
 
-// ✅ Load Departments for dropdown
+// Toast message
+function showMessage(message, type = "success") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `
+    <span class="toast-icon">${
+      type === "success" ? "✅" : type === "error" ? "❌" : "ℹ️"
+    }</span>
+    <span class="toast-text">${message}</span>
+  `;
+  toastContainer.appendChild(toast);
+
+  // animate in
+  setTimeout(() => toast.classList.add("show"), 100);
+
+  // remove after 3s
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}
+
+/* Load Departments */
 async function loadDepartments() {
   const res = await fetch(`${BASE}/departments`);
   departments = await res.json();
@@ -27,7 +57,7 @@ async function loadDepartments() {
   });
 }
 
-// ✅ Open Modal
+/* Open Modal */
 addEmployeeBtn.addEventListener("click", () => {
   modalTitle.textContent = "Add Employee";
   employeeForm.reset();
@@ -35,7 +65,7 @@ addEmployeeBtn.addEventListener("click", () => {
   employeeModal.style.display = "block";
 });
 
-// ✅ Close Modal
+/* Close Modal */
 closeModal.addEventListener("click", () => {
   employeeModal.style.display = "none";
 });
@@ -43,12 +73,11 @@ window.addEventListener("click", e => {
   if (e.target == employeeModal) employeeModal.style.display = "none";
 });
 
-// ✅ Load Employees
+/* Load Employees */
 async function loadEmployees(query = "") {
   const res = await fetch(`${BASE}/employees`);
   employees = await res.json();
 
-  // Filter for search
   if (query) {
     employees = employees.filter(e =>
       e.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -78,7 +107,7 @@ async function loadEmployees(query = "") {
   attachEventListeners();
 }
 
-// ✅ Attach events for edit & delete
+/* Attach events for edit & delete */
 function attachEventListeners() {
   document.querySelectorAll(".edit").forEach(btn => {
     btn.addEventListener("click", async () => {
@@ -89,6 +118,7 @@ function attachEventListeners() {
       modalTitle.textContent = "Edit Employee";
       employeeForm.dataset.mode = "edit";
       employeeForm.dataset.id = id;
+      employeeForm.dataset.original = JSON.stringify(emp);
 
       document.getElementById("id").value = emp.id;
       document.getElementById("name").value = emp.name;
@@ -96,9 +126,6 @@ function attachEventListeners() {
       document.getElementById("salary").value = emp.salary;
       document.getElementById("join_date").value = emp.join_date;
       departmentSelect.value = emp.department_id;
-
-      // Store original data to compare
-      employeeForm.dataset.original = JSON.stringify(emp);
 
       employeeModal.style.display = "block";
     });
@@ -108,19 +135,20 @@ function attachEventListeners() {
     btn.addEventListener("click", async () => {
       if (!confirm("Delete this employee?")) return;
       const res = await fetch(`${BASE}/employees/${btn.dataset.id}`, { method: "DELETE" });
-      alert((await res.json()).message);
+      const data = await res.json();
+      showMessage(data.message || "Employee deleted successfully", "success");
       loadEmployees();
     });
   });
 }
 
-// ✅ Search Function
+/* Search */
 searchBtn.addEventListener("click", () => {
   const query = searchInput.value.trim();
   loadEmployees(query);
 });
 
-// ✅ Add / Edit Employee
+/* Add/Edit Employee */
 employeeForm.addEventListener("submit", async e => {
   e.preventDefault();
   const mode = employeeForm.dataset.mode;
@@ -134,12 +162,11 @@ employeeForm.addEventListener("submit", async e => {
     department_id: parseInt(departmentSelect.value)
   };
 
-  // ✅ Compare for same info when updating
   if (mode === "edit") {
     const original = JSON.parse(employeeForm.dataset.original || "{}");
     const isSame = Object.keys(payload).every(k => String(payload[k]) === String(original[k]));
     if (isSame) {
-      alert("Same information, nothing to update");
+      showMessage("Same information, nothing to update", "info");
       employeeModal.style.display = "none";
       return;
     }
@@ -159,12 +186,12 @@ employeeForm.addEventListener("submit", async e => {
   });
 
   const result = await res.json();
-  alert(result.message || result.error);
+  showMessage(result.message || result.error, result.error ? "error" : "success");
   employeeModal.style.display = "none";
   loadEmployees();
 });
 
-// ✅ Initial Load
+/* Init */
 (async function init() {
   await loadDepartments();
   await loadEmployees();

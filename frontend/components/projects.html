@@ -10,14 +10,21 @@
 <div class="container">
   <h1>Projects Management</h1>
 
-  <!-- Add Project Card/Button -->
-  <div class="add-card" id="addProjectBtn">+ Add Project</div>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <input type="text" id="searchInput" placeholder="Search projects..." />
+    <button id="searchBtn">Search</button>
+    <div class="add-card" id="addProjectBtn">+ Add Project</div>
+  </div>
+
+  <!-- Message Box -->
+  <div id="messageBox"></div>
 
   <h2>All Projects</h2>
   <table class="data-table" id="projectTable">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Sl. No.</th>
         <th>Title</th>
         <th>Description</th>
         <th>Start Date</th>

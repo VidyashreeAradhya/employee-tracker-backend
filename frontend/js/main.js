@@ -8,3 +8,7 @@ async function loadComponent(name) {
   script.src = `js/${name}.js`;
   document.body.appendChild(script);
 }
+
+document.getElementById("homeBtn").addEventListener("click", () => {
+  loadComponent("home"); // assuming your home page file is `home.html`
+});
