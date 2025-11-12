@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects Management</title>
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Projects Management</h1>
+
+  <!-- Add Project Card/Button -->
+  <div class="add-card" id="addProjectBtn">+ Add Project</div>
+
+  <h2>All Projects</h2>
+  <table class="data-table" id="projectTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Project Code</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Project Modal -->
+<div id="projectModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Add Project</h2>
+    <form id="projectForm">
+      <input type="hidden" id="projectId" />
+
+      <label>Title</label>
+      <input type="text" id="title" required />
+
+      <label>Description</label>
+      <textarea id="description" rows="3" required></textarea>
+
+      <label>Start Date</label>
+      <input type="date" id="start_date" required />
+
+      <label>End Date</label>
+      <input type="date" id="end_date" />
+
+      <button type="submit" id="saveBtn">Save</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/projects.js"></script>
+</body>
+</html>

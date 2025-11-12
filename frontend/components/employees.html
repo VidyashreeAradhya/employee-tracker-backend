@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Employee Management</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<div class="container">
+  <h1>Employee Management</h1>
+
+  <div class="top-bar">
+    <input type="text" id="searchInput" placeholder="Search employees..." />
+    <button id="searchBtn">Search</button>
+    <div class="add-card" id="addEmployeeBtn">+ Add Employee</div>
+  </div>
+
+  <h2>All Employees</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Sl. No.</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Join Date</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="employeeTableBody"></tbody>
+  </table>
+</div>
+
+<!-- Employee Modal -->
+<div id="employeeModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Add Employee</h2>
+    <form id="employeeForm">
+      <input type="hidden" id="id" />
+
+      <label>Name</label>
+      <input type="text" id="name" required />
+
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Salary</label>
+      <input type="number" id="salary" required />
+
+      <label>Join Date</label>
+      <input type="date" id="join_date" required />
+
+      <label>Department</label>
+      <select id="departmentSelect" required>
+        <option value="">-- Select Department --</option>
+      </select>
+
+      <button type="submit" id="saveBtn">Save</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/employees.js"></script>
+</body>
+</html>

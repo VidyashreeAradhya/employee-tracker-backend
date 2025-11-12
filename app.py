@@ -1,38 +1,22 @@
-from flask import Flask, jsonify, request              # to create flask app and handle requests
-from flask_sqlalchemy import SQLAlchemy                # to connect flask with database
-from flask_marshmallow import Marshmallow              # to convert complex data types to JSON
-from flask_migrate import Migrate                      # to handle database migrations
-from config import Config                             # import configuration class (ensure config.py exists)
+from flask import Flask
+from flask_cors import CORS
+from config import Config
+from extensions import db
+from routes import register_routes
 
-# ----------------------------------------------------
-# App Configuration
-# ----------------------------------------------------
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-# Load database configurations from Config class
-app.config.from_object(Config)
+    db.init_app(app)
+    CORS(app)
+    register_routes(app)
 
-# Initialize extensions
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
-migrate = Migrate(app, db)  # <-- Added this line to enable migrations
-
-# ----------------------------------------------------
-# Routes
-# ----------------------------------------------------
-@app.route('/')
-def home():
-    return "Employee Tracker API is running!"
+    return app
 
 
-# ----------------------------------------------------
-# Import routes after db initialization
-# ----------------------------------------------------
-from routes import *
-from models import *
-
-# ----------------------------------------------------
-# Run the App
-# ----------------------------------------------------
 if __name__ == "__main__":
+    app = create_app()
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

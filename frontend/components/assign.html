@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assign Employees to Projects</title>
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Assign Employees to Projects</h1>
+
+  <!-- Assign Button -->
+  <div class="add-card" id="assignBtn">+ Assign Employee</div>
+
+  <h2>Current Assignments</h2>
+  <table class="data-table" id="assignmentTable">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Project</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Assign Modal -->
+<div id="assignModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Assign Employee to Project</h2>
+    <form id="assignForm">
+      <label>Employee</label>
+      <select id="employeeSelect" required></select>
+
+      <label>Project</label>
+      <select id="projectSelect" required></select>
+
+      <button type="submit">Assign</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/assign.js"></script>
+</body>
+</html>

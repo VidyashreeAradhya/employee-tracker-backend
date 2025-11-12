@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Tracker</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Employee Tracker System</h1>
+    <nav>
+      <button onclick="loadComponent('employees')">Employees</button>
+      <button onclick="loadComponent('departments')">Departments</button>
+      <button onclick="loadComponent('projects')">Projects</button>
+      <button onclick="loadComponent('assign')">Assign/Unassign</button>
+    </nav>
+  </header>
+
+  <main id="content">
+    <h2>Welcome to Employee Tracker</h2>
+    <p>Select a section to manage employees, departments, or projects.</p>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

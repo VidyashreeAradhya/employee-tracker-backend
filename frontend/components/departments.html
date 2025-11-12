@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Departments Management</title>
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Departments Management</h1>
+
+  <!-- Add Department Card/Button -->
+  <div class="add-card" id="addDepartmentBtn">+ Add Department</div>
+
+  <h2>All Departments</h2>
+  <div class="table-container">
+    <table id="departmentTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Dept Code</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Department Modal -->
+<div id="departmentModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Add Department</h2>
+    <form id="departmentForm">
+      <input type="hidden" id="departmentId" />
+
+      <label>Name</label>
+      <input type="text" id="deptName" required />
+
+      <label>Location</label>
+      <input type="text" id="deptLocation" />
+
+      <button type="submit" id="saveBtn">Save</button>
+    </form>
+  </div>
+</div>
+
+<script src="../js/departments.js"></script>
+</body>
+</html>
