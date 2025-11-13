@@ -129,6 +129,35 @@ def register_routes(app):
                 for p in projects if p
            ]
         }), 200
+    
+    # -------------------------------
+    # GET ALL PROJECTS ASSIGNED TO AN EMPLOYEE
+    # -------------------------------
+    @app.route('/employees/<int:emp_id>/projects', methods=['GET'])
+    def get_employee_projects(emp_id):
+        emp = Employee.query.get(emp_id)
+        if not emp:
+            return jsonify({"error": "Employee not found"}), 404
+
+        # Get all project IDs assigned to this employee
+        assigned_rows = db.session.execute(
+            employee_project.select().where(employee_project.c.employee_id == emp_id)
+        ).fetchall()
+
+        projects = [Project.query.get(row.project_id) for row in assigned_rows]
+
+        return jsonify([
+            {
+                "id": p.id,
+                "title": p.title,
+                "description": p.description,
+                "start_date": str(p.start_date),
+                "end_date": str(p.end_date),
+                "project_code": p.project_code,
+                "department": p.department.name if p.department else "-"
+            } for p in projects if p
+        ]), 200
+
 
 
     @app.route('/employees/<int:id>', methods=['PUT'])
